@@ -1,0 +1,97 @@
+<div style="display:flex;">
+  <div style="width:20%; min-height: 879px; background-color: lightyellow">
+    <ul #ul>
+      <li *ngFor="let author of authors" style="list-style-type: none;"> <button (click)="selectAuthor(author)" class="btn btn-link" style="color:black;text-decoration:none">{{author.name}}</button> </li>
+    </ul>
+  </div>
+  <div class="container mt-5">
+      <div class="card" *ngIf="author">
+      <div class="card-body">
+    <flash-messages></flash-messages>
+
+    <form #newAuthorForm="ngForm" (submit)="onAuthorEditSubmit(newAuthorForm)" >
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text"
+               class="form-control"
+               name="name"
+               #name="ngModel"
+               [(ngModel)]="author.name"
+               placeholder="Enter author name"
+               [ngClass]="{'is-invalid': name.errors && name.touched}"
+               required
+               >
+      </div>
+      <div class="form-group">
+        <label for="textArea">Biography</label>
+        <textarea
+                 name="biography"
+                 class="form-control"
+                 cols="30"
+                 rows="3"
+                 #biography="ngModel"
+                 [(ngModel)]="author.biography"
+                 ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <input
+              type="date"
+              class="form-control"
+              name="dateOfBirth"
+              #dateOfBirth="ngModel"
+              [ngModel]="author.dateOfBirth | date:'yyyy-MM-dd'"
+              >
+      </div>
+
+      <div class="form-group">
+        <label for="dateOfDeath">Date of death</label>
+        <input
+              type="date"
+              class="form-control"
+              name="dateOfDeath"
+              #dateOfDeath="ngModel"
+              [ngModel]="author.dateOfDeath | date:'yyyy-MM-dd'"
+              >
+      </div>
+
+<!--surati-->
+      <div  class="input-group mb-3 mt-2">
+        <div  class="input-group-prepend">
+          <span  class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+        </div>
+        <div class="custom-file">
+          <input style="cursor:pointer" type="file" class="custom-file-input" id="inputGroupFile01"
+            aria-describedby="inputGroupFileAddon01" (change)="fileSelect($event)">
+          <label class="custom-file-label" for="inputGroupFile01">Choose image</label>
+        </div>
+      </div>
+      <small style="color:red" *ngIf="!imageValidation">Images Only</small>
+        <img style="width:150px" class="img-thumbnail " src="{{editedImageUrl}}" style="width:150px" *ngIf="editedImageUrl">
+        <img style="width:150px" src="http://localhost:5000/user/getbookposter?path={{author.imagePath}}" *ngIf="!editedImageUrl">
+
+<!--surati-->
+      <h4>categories</h4>
+      <div ngModelGroup="categories" *ngFor="let category of categories" class="form-check form-check-inline">
+        <input
+              class="form-check-input"
+              type="checkbox"
+              name="{{category.category}}"
+              value="category.category"
+              #category.category="ngModel"
+              [(ngModel)]="category.existance"
+              >
+        <label class="form-check-label" for="{{category.category}}">{{category.category}}</label>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3 form-control">Add author</button>
+    </form>
+
+  </div>
+  </div>
+</div>
+</div>
+
+
+
+
+

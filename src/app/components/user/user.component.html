@@ -1,0 +1,28 @@
+<app-navbar></app-navbar>
+<!-- searchi -->
+<div class="container">
+  <div class="input-group mt-3 form-group">
+    <ng-template #mainSearch let-r="result" let-t="term">
+      <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+    </ng-template>
+    <form style="display:flex;width:100%" #sada="ngForm" (submit)="submit(sada)">
+      <input
+            id="typeahead-format"
+            type="text"
+            class="form-control"
+            name="mainSearch"
+            [(ngModel)]="searchResult"
+            [ngbTypeahead]="search"
+            [resultTemplate]="mainSearch"
+            [inputFormatter]="formatter"
+            placeholder="Search book or author..."
+            required
+            />
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="submit"><i
+            class="fas fa-search"></i></button>
+      </span>
+    </form>
+    </div>
+</div>
+<router-outlet></router-outlet>

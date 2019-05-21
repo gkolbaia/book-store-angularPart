@@ -1,0 +1,70 @@
+<div *ngIf="author && !error404" class="container mt-4">
+    <input style="display: none" type="text" *ngIf="author.name!==_activatedRoute.snapshot.params['name']"  value="{{ngOnInit()}}">
+     <div class="container">
+       <div class="row">
+         <div class="media">
+           <div class="card" style="width: 18rem;">
+           <img class="card-img-top mr-3" src="http://localhost:5000/user/getbookposter?path={{author.imagePath}}" alt="Book poster">
+               <div class="card-body">
+             </div>
+           </div>
+           <div class="ml-4 media-body">
+             <h1 class="mt-0">{{_services.capitalizeLetters(author.name)}}</h1>
+             <ul style="list-style-type:none; padding-left:0">
+               <li><p><strong>Biography</strong> {{_services.capitalizeFirstLetter(author.biography)}}</p></li>
+               <li><p><strong>Categories</strong> <span *ngFor="let category of author.categories"> <a routerLink="/categories/{{category.category}}"> {{category.category}}</a>  </span></p></li>
+                <li><strong>Born</strong>: {{ bornDate | date }}</li>
+               <li><strong>died</strong>: {{ deathDate | date }}</li>
+             </ul>
+           </div>
+         </div>
+       </div>
+     </div>
+<hr class="mt-5">
+<h1 class="text-center">This Author Books</h1>
+<hr class="mt-5">
+     <!-- slaidi -->
+     <div id="multi-item-example" class="carousel slide carousel-multi-item carousel-multi-item-2" data-ride="carousel" *ngIf="bigArray.length >0">
+        <div class="controls-top" style="text-align:center" *ngIf="bigArray.length >1">
+            <button (click)="prevSlide()" class ="black-text btn btn-link"><i class="fas fa-angle-left fa-3x pr-3"></i></button>
+            <button (click)="nextSlide()" class="black-text btn btn-link"><i class="fas fa-angle-right fa-3x pl-3"></i></button>
+          </div>
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item" *ngFor="let slide of bigArray; index as i" [ngClass]="{'active': i=== slideNumber} ">
+            <div class="col-md-3 mb-3" *ngFor="let picture of slide">
+              <div class="card">
+                  <a routerLink="/book/{{picture.name}}" style="text-decoration:none; color:black">
+                    <div class="card ml-1 mr-1 mt-3 mb-3" style="width: 250px; height: 400px">
+                      <img class="card-img-top mt-1" style="display: block;margin: auto;height:250px; width:200px;"
+                        src="http://localhost:5000/user/getbookposter?path={{picture.posterPath}}" alt="Card image cap">
+                      <div class="card-body">
+                        <h5 class="card-title">{{picture.name}}</h5>
+                        <h3 style="display: flex; "><span *ngIf="picture.sale>0"><s class="mr-5"
+                              style="color:red">{{picture.price | currency:'USD'}}</s>
+                          </span>{{picture.price-(picture.price*picture.sale/100) | currency:'USD'}}</h3>
+                      </div>
+                    </div>
+                  </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+   </div>
+   <div *ngIf="error404" class="container">
+     <h2>Can not find that author, Check the link</h2>
+   </div>
+
+
+
+
+
+
+
+
+
+
+

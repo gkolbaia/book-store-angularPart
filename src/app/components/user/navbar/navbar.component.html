@@ -1,0 +1,145 @@
+<nav style="box-shadow:1px 1px grey" class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <a class="navbar-brand" href="#">Hidden brand</a>
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0 mr-5">
+        <li class="nav-item active">
+            <a *ngIf="loggedInPersonStatus==='admin'" [routerLink]="['/admin']" class="mr-3 pb-2">Administrator page</a>
+      <li class="nav-item active">
+        <button *ngIf="user" class="btn btn-outline-primary mb-2 mr-2" (click)="logOut()">Log Out</button>
+      </li>
+      <li class="nav-item active">
+        <button *ngIf="!user" style="color:black" class="btn btn-outline-light mb-2 mr-2"
+          (click)="openDialog(signIn)">Sign In</button>
+
+      </li>
+      <li class="nav-item active">
+        <button *ngIf="!user" class="btn btn-outline-primary mb-2 mr-2" (click)="openDialog(signUp)">Sign Up</button>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!-- serchi -->
+
+
+
+
+
+
+<ng-template #signUp let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Sign Up</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <flash-messages></flash-messages>
+      <form #registrationForm="ngForm" (submit)="onRegistrationSubmit(registrationForm)">
+        <div class="form-group">
+          <label for="userName">Username</label>
+          <input
+                 class="form-control"
+                 type="text"
+                 name="userName"
+                 #userName="ngModel"
+                 [ngClass]="{'is-invalid': userName.errors && userName.touched}"
+                 [(ngModel)]="registrationForm.userName"
+                 required
+                 minlength="3"
+                 >
+                 <div class="invalid-feedback" [hidden]="!userName.errors?.minlength">User Name should be at least 3 character</div>
+                 <div class="invalid-feedback" [hidden]="!userName.errors?.required">User Name Required</div>
+
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+               class="form-control"
+               type="password"
+               name="password"
+               #password="ngModel"
+               [(ngModel)]="registrationForm.password"
+               [ngClass]="{'is-invalid': password.errors && password.touched}"
+               required
+               minlength="5"
+               >
+               <div class="invalid-feedback" [hidden]="!password.errors?.minlength">password should be at least 5 character</div>
+                 <div class="invalid-feedback" [hidden]="!password.errors?.required">Password Required</div>
+                 <small [class.d-none]="passwordmatched" style="color:red" >Password Does Not match</small>
+        </div>
+        <div class="form-group">
+          <label for="passwordMatch">Retry Password</label>
+          <input
+               class="form-control"
+               type="password"
+               name="passwordMatch"
+               #passwordMatch="ngModel"
+               [(ngModel)]="registrationForm.paswordMatch"
+               [ngClass]="{'is-invalid': passwordMatch.errors && passwordMatch.touched}"
+               required
+               >
+               <small [class.d-none]="passwordmatched" style="color:red" >Password Does Not match</small>
+
+        </div>
+          <input type="submit" value="Sign In" class="btn btn-primary mt-2 form-control">
+        </form>
+  </div>
+  <div class="modal-footer">
+  </div>
+</ng-template>
+
+<!-- <button class="btn btn-outline-primary mb-2 mr-2" (click)="openWindowCustomClass(content)">Modal with window custom class</button>
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="openBackDropCustomClass(content)">Modal with backdrop custom class</button>
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="openSm(content)">Small modal</button>
+<button class="btn btn-outline-primary mb-2 mr-2" (click)="openLg(content)">Large modal</button> -->
+
+<ng-template #signIn let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">log on or sign up</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <flash-messages></flash-messages>
+    <form #loginForm="ngForm" (submit)="onLoginSubmit(loginForm)">
+      <label for="userName">Username</label>
+      <input
+             class="form-control"
+             type="text"
+             name="userName"
+             #userName="ngModel"
+             [(ngModel)]="loginForm.userName"
+             required
+             >
+      <label for="password"></label>
+      <input
+           class="form-control"
+           type="password"
+           name="password"
+           #password="ngModel"
+           [(ngModel)]="loginForm.password"
+           required
+           >
+      <input type="submit" value="Log in" class="btn btn-primary mt-2 form-control">
+    </form>
+    <button class="mt-2 form-control btn btn-secondary" (click)="turnModalWindowToSignUp(signUp)">Sign Up</button>
+  </div>
+  <div class="modal-footer">
+  </div>
+</ng-template>

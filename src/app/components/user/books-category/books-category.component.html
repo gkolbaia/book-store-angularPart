@@ -1,0 +1,19 @@
+<div class="container" *ngIf="booksByCategory">
+  <h1 class="mt-4" style="text-align:center">{{capitalLetter(category)}} Books</h1>
+  <ul class="d-flex flex-wrap" style="list-style-type: none;">
+    <li *ngFor="let book of booksByCategory">
+      <a routerLink="/book/{{book.name}}" style="text-decoration:none; color:black">
+        <div class="card ml-1 mr-1 mt-3 mb-3" style="width: 250px; height: 400px">
+          <img class="card-img-top mt-1" style="display: block;margin: auto;height:250px; width:200px;"
+            src="http://localhost:5000/user/getbookposter?path={{book.posterPath}}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title">{{capitalLetter(book.name)}}</h5>
+            <h3 style="display: flex; "><span *ngIf="book.sale>0"><s class="mr-5"
+                  style="color:red">{{book.price | currency:'USD'}}</s>
+              </span>{{book.price-(book.price*book.sale/100) | currency:'USD'}}</h3>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>
